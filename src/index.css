@@ -11,3 +11,57 @@ body,
   min-width: 320px;
   min-height: 100%;
 }
+
+.demo-layout {
+  width: min(100%, 460px);
+  margin: 0 auto;
+  padding: 16px 12px 32px;
+  color: #171719;
+}
+.demo-notice,
+.demo-controls {
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 14px 16px;
+  background: #faf7f0;
+  border: 1px solid #e0dbcf;
+  border-radius: 14px;
+}
+.demo-notice { margin-bottom: 12px; }
+.demo-controls { margin-top: 16px; }
+.demo-controls summary { cursor: pointer; min-height: 32px; }
+.app-shell {
+  width: 100%;
+  min-width: 0;
+  position: relative;
+  border-radius: 24px;
+  padding-top: 12px;
+  box-shadow: 0 18px 42px rgba(26, 22, 12, .12);
+  overflow-wrap: anywhere;
+}
+.screen-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 22px 28px;
+}
+.screen-content > * { min-width: 0; }
+.screen-content textarea { font-size: 16px; resize: vertical; }
+button:focus-visible, summary:focus-visible, input:focus-visible {
+  outline: 2px solid #3a6683;
+  outline-offset: 4px;
+}
+button:disabled { cursor: not-allowed; }
+@media (max-width: 480px) {
+  .demo-layout { padding: 0 0 24px; }
+  .demo-notice, .app-shell { border-radius: 0; }
+  .demo-controls { margin: 16px 12px 0; }
+  .app-shell { box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #root *, #root *::before, #root *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
