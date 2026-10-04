@@ -26,7 +26,7 @@
   background: var(--page);
 }
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; }
+body { margin: 0; min-width: 0; }
 button, textarea, input { font: inherit; }
 button, a, summary, input { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; }
@@ -116,7 +116,9 @@ textarea:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
   .demo-controls { margin: 0; padding: 8px 24px; background: var(--soft); }
 }
 @media (max-width: 359px) {
-  .brand-header { padding: 20px; }
+  .brand-header { padding: 20px; gap: 12px; }
+  .brand-header img { width: 124px; height: auto; }
+  .brand-header > span { max-width: 68px; }
   .screen-content { padding: 0 20px 24px; gap: 20px; }
   .product-context { gap: 12px; padding: 12px; }
   .product-context img { width: 76px; height: 76px; }

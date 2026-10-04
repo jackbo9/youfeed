@@ -30,9 +30,11 @@ function AppShell({ children }) {
 }
 
 function SubmitActions({ draft, submitting, error, onSubmit }) {
+  const submitRef = useRef(null);
+  useEffect(() => { if (error) submitRef.current?.focus(); }, [error]);
   return <div className="actions" aria-busy={submitting}>
     {error && <div className="notice error" role="alert"><strong>That didn’t go through.</strong><p>This is a simulated failure. Your words are still here. Try again when you’re ready.</p></div>}
-    <button className="button primary" disabled={submitting || !draft.trim()} onClick={onSubmit}>
+    <button ref={submitRef} className="button primary" disabled={submitting || !draft.trim()} onClick={onSubmit}>
       {submitting ? <><span className="spinner" aria-hidden="true" /> Finishing…</> : error ? 'Try again' : 'Finish feedback'}
     </button>
     <p className="fine-print" role="status">{submitting ? 'Completing the demo. Nothing is sent.' : 'Demo only — nothing is sent to Giacomini.'}</p>
@@ -83,14 +85,19 @@ function RecordingScreen({ onStop, onType }) {
 function CapturedScreen({ draft, onChange, onSubmit, onRedo, onType, autoStopped, submitting, error }) {
   const [isEditing, setIsEditing] = useState(false);
   const editRef = useRef(null);
-  useEffect(() => { if (isEditing) editRef.current?.focus(); }, [isEditing]);
+  const editButtonRef = useRef(null);
+  const restoreEditFocus = useRef(false);
+  useEffect(() => {
+    if (isEditing) editRef.current?.focus();
+    else if (restoreEditFocus.current) { editButtonRef.current?.focus(); restoreEditFocus.current = false; }
+  }, [isEditing]);
   return <AppShell>
     <ProductContext compact />
     <div className="heading-group"><p className="eyebrow">Check your words</p><h1 tabIndex={-1}>Does this say what you mean?</h1><p className="supporting">{client.question}</p></div>
     {autoStopped && <p className="notice" role="status">The {client.recordingSeconds}-second demo has ended. Your sample is ready to check.</p>}
     <div className="transcript">
-      <div className="transcript-heading"><span>Editable example</span>{!isEditing && <button className="button text-button" disabled={submitting} onClick={() => setIsEditing(true)}>Edit</button>}</div>
-      {isEditing ? <><label className="sr-only" htmlFor="transcript">Your feedback</label><textarea id="transcript" ref={editRef} rows={6} value={draft} disabled={submitting} onChange={(event) => onChange(event.target.value)} /><button className="button text-button" disabled={submitting} onClick={() => setIsEditing(false)}>Done editing</button></> : <p className="transcript-text">{draft || 'Nothing here yet. Select Edit to add your thought.'}</p>}
+      <div className="transcript-heading"><span>Editable example</span>{!isEditing && <button ref={editButtonRef} className="button text-button" disabled={submitting} onClick={() => setIsEditing(true)}>Edit</button>}</div>
+      {isEditing ? <><label className="sr-only" htmlFor="transcript">Your feedback</label><textarea id="transcript" ref={editRef} rows={6} value={draft} disabled={submitting} onChange={(event) => onChange(event.target.value)} /><button className="button text-button" disabled={submitting} onClick={() => { restoreEditFocus.current = true; setIsEditing(false); }}>Done editing</button></> : <p className="transcript-text">{draft || 'Nothing here yet. Select Edit to add your thought.'}</p>}
       <p className="fine-print">Sample text, not a transcription of your voice.</p>
     </div>
     <SubmitActions draft={draft} submitting={submitting} error={error} onSubmit={onSubmit} />
@@ -124,7 +131,7 @@ function RecoveryScreen({ kind, onRetry, onType }) {
   const noAudio = kind === 'no-audio';
   return <AppShell><ProductContext compact />
     <div className="heading-group"><p className="eyebrow">Voice · demo</p><h1 tabIndex={-1}>{noAudio ? 'No words picked up.' : 'The transcript isn’t ready.'}</h1><p className="supporting">{noAudio ? 'Try the voice example again, or write your thought instead.' : 'Try preparing the example again, or continue by writing.'}</p></div>
-    <div className="notice" role="status">Simulated {noAudio ? 'empty recording' : 'transcription failure'}. Your earlier written draft is still available.</div>
+    <div className="notice" role="status">Simulated {noAudio ? 'empty recording' : 'transcription failure'}. Any earlier written draft is kept.</div>
     <div className="actions"><button className="button primary" onClick={onRetry}>{noAudio ? 'Try voice again' : 'Try again'}</button><button className="button secondary" onClick={onType}>Write instead</button></div>
   </AppShell>;
 }

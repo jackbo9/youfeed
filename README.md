@@ -1,31 +1,48 @@
 # YouFeed × Giacomini
 
-面向展会现场的轻量反馈体验：确认展品 → 语音或文字表达 → 核对 → 完成。
+轻量展会反馈概念：确认展品 → 语音或文字表达 → 核对 → 完成。
 
-当前仓库是演示原型，录音/转写/提交尚不代表真实服务。升级按轮交付，由用户负责浏览器走查与 review。
+这是 **2026 年作品集重构演示**，使用官方 Giacomini R146C 素材。语音、转写和提交均为模拟；不请求麦克风、不发送反馈。不是 Giacomini 官方在线收件服务，也不是 2025 年部署版本的逐像素还原。
 
-## 开发
+## 本地运行
 
 ```sh
 npm ci
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
 
-打开 http://127.0.0.1:5173/ 。简单代码检查：`npm run lint`、`npm run build`、`git diff --check`。
+开发预览：http://127.0.0.1:5173/
 
-## 文档
+```sh
+npm run lint
+npm test
+npm run build
+npm run preview -- --host 127.0.0.1 --port 4173 --strictPort
+```
 
-- [Agent 执行约定](AGENTS.md)：按轮实施、本地预览、commit/push、review 分工。
-- [完整升级计划与进度](PLAN.md)：定位、轮次范围、验收和执行记录。
-- [升级前评估](docs/audit-2026-10-03/assessment.md)：原始问题与证据边界。
+生产构建预览：http://127.0.0.1:4173/
 
-当前为 **R0 + R1 合并交付，待用户 review**。基线 lint 错误已修复，lint/build 通过；浏览器走查由用户完成。
+## 体验和异常场景
 
-## 本轮体验
+- 正常：Write a thought → 输入 → Finish feedback；或 Try speaking → Stop and review → Edit → Finish feedback。
+- 底部 **About this demo & controls**：选择下一次语音尝试的模拟权限不可用/无有效录音/转写失败，或勾选下一次提交失败。场景只影响下一次尝试，正常重试可继续。
+- 转写与文字共享草稿；返回、模式切换、失败重试不清空已形成的文字。
+- 重录会在样例准备完成后替换草稿，开始前确认；清空/重启同样确认，Escape 可取消。
+- 草稿只在页面内存；刷新、关闭或明确重启会清空。没有账户、持久化、分析后台或真实音频。
 
-- 文字：输入 → 提交演示 → Demo complete。
-- 模拟语音：点击麦克风 → 停止或等 30 秒 → 编辑样例 → 提交演示。不申请麦克风权限。
-- 失败：展开底部 **Demo controls**，勾选 **Fail the next submission, then allow retry**；下次提交失败后草稿仍在，再重试成功。
-- 转写与文字共享草稿。重新录音完成后会替换为样例，开始前确认；取消录音保留已有文字。
-- 清空/重启需确认。草稿只保留在当前页面内存，刷新会清空。
-- 无真实音频采集、转写或后端投递；完成页不代表反馈已送达客户。
+## 静态发布
+
+`npm run build` 后，把 **dist 内的内容**上传到静态站点根目录或 `/youfeed/` 子目录。Vite 使用相对 base，所有品牌资产和字体无需外部 CDN。使用带尾斜线的子目录 URL（例如 `/youfeed/`），无需 SPA 路由重写。
+
+本次构建包放在本地 `artifacts/youfeed-portfolio-demo.zip`（忽略于 Git）；相同内容可随时从源码重新构建。预览服务器仅监听本机；本次未发布公网。修改外部作品集页面或实际公开部署不是当前仓库自动执行的动作。
+
+## 文档与证据
+
+- [Agent 约定](AGENTS.md) · [完整计划与轮次记录](PLAN.md)
+- [客户内容与官方资产来源](docs/giacomini-content.md)
+- [小型视觉系统](docs/design-system.md)
+- [中文版/英文版作品集更新材料](docs/portfolio-update.md)
+- [最终发布资格检查与证据](docs/release-review-2026-10-04/README.md)
+- [升级前评估](docs/audit-2026-10-03/assessment.md)
+
+客户内容集中在 `src/client-config.js`，视觉规则在 `src/index.css`，行为状态在 `src/feedback-state.js`。品牌资产版权归其权利人；来源和事实/提案边界见内容文档。
