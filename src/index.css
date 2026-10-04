@@ -162,6 +162,26 @@ select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 .voice-orb:active { transform: scale(.97); box-shadow: inset 0 3px 10px #82001033, 0 3px 8px #8700151c; }
 .voice-orb.is-recording { background: radial-gradient(circle at 34% 22%, #ce1930, #b90018 65%, #a00014); gap: 12px; }
 .voice-orb .stop-icon { width: 26px; height: 26px; border-radius: 5px; }
+.prompt-screen .product-context.featured { border: 0; padding: 0; gap: 20px; }
+.product-context.featured img { width: 128px; height: 128px; }
+.product-context.featured .product-code { font-size: 22px; }
+.prompt-screen .heading-group { gap: 10px; }
+.prompt-screen .input-choices { gap: 12px; }
+.write-choice { background: transparent; color: var(--ink); min-height: 48px; padding: 10px 24px; text-decoration: underline; text-underline-offset: 4px; }
+.write-choice:hover { background: var(--soft); }
+.write-choice > span { font-size: 23px; text-decoration: none; }
+.prompt-screen .product-footer { border: 0; justify-content: center; padding-top: 0; }
+.prompt-screen .product-footer > span:last-child { display: none; }
+@media (max-width: 480px) {
+  .prompt-screen { min-height: calc(100svh - 34px); display: flex; flex-direction: column; }
+  .prompt-screen .screen-content { flex: 1; gap: 20px; padding-bottom: 20px; }
+  .prompt-screen .input-choices { margin-top: auto; }
+  .prompt-screen .product-footer { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
+}
+@media (max-width: 359px) {
+  .product-context.featured img { width: 112px; height: 112px; }
+  .prompt-screen .product-context.featured { gap: 12px; }
+}
 .orb-time { font-size: 22px; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
 .voice-screen .recording-panel { padding: 0; background: none; gap: 14px; }
 .voice-screen .brand-header { padding-top: 20px; padding-bottom: 18px; }

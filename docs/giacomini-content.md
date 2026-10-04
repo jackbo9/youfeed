@@ -20,13 +20,13 @@
 | 项目 | 本次选择 | 证据边界 |
 | --- | --- | --- |
 | 客户 | Giacomini | 用户指定 |
-| 示例展品 | R146C 除污器 | 官方产品事实；尚未证明它就是 2025 年原项目现场 SKU |
-| 情境 | Exhibition feedback | 展会反馈概念；不虚构 Hall B / Stand 14 等具体位置 |
-| 目的 | 了解访客还想获得哪些解释 | 设计提案，非已确认客户研究目标 |
-| 问题 | What would you like to know more about? | 直接置于产品图/名下，各输入方式一致 |
-| 邀请 | One thought about this separator is enough. You can check your words before finishing. | 轻量表达邀请，非完成时长承诺 |
-| 接收方 | Giacomini exhibition team | 演示中的拟定接收方，未真实投递 |
-| 示例回答 | 关注清洁方法和维护频率 | 人工编写示例，不是访客原话、访谈记录或真实转写 |
+| 示例产品 | R146C 除污器 | 官方产品事实；尚未证明它就是 2025 年原项目现场 SKU |
+| 情境 | Product feedback | 面向展会、门店等产品触点，不限定展会 |
+| 目的 | 收集对产品本身的印象、体验与改进意见 | 用户明确的产品定位；具体客户运营目标待确认 |
+| 问题 | What do you think of this product? | 直接置于产品图/名下，各输入方式一致 |
+| 邀请 | A first impression or an experience — one thought is enough. | 轻量表达邀请，非完成时长承诺 |
+| 接收方 | Giacomini team | 演示中的拟定接收方，未真实投递 |
+| 示例回答 | 对紧凑外形的印象及清洁入口标识的改进建议 | 人工编写示例，不是访客原话、访谈记录或真实转写 |
 
 ## 处理说明与限制
 

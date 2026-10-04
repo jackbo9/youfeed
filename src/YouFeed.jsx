@@ -7,11 +7,11 @@ function MicIcon() {
   return <svg aria-hidden="true" width="20" height="24" viewBox="0 0 33 43" fill="none"><rect x="9.5" y="2" width="14" height="23" rx="7" fill="currentColor" /><path d="M3.5 19.5C3.5 29 11 35.5 16.5 35.5S29.5 29 29.5 19.5M16.5 35.5V41M10.5 41H22.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /></svg>;
 }
 
-function ProductContext({ compact = false }) {
-  return <section className={`product-context ${compact ? 'compact' : ''}`} aria-label="Product being reviewed">
+function ProductContext({ compact = false, featured = false }) {
+  return <section className={`product-context ${compact ? 'compact' : ''} ${featured ? 'featured' : ''}`} aria-label="Product being reviewed">
     <img src={client.product.image} alt={client.product.imageAlt} width="112" height="112" />
     <div><span className="product-code">{client.product.code}</span><p>{client.product.name}</p>
-      {!compact && <a className="product-link" href={client.product.url} target="_blank" rel="noreferrer">Product details <span aria-hidden="true">↗</span><span className="sr-only"> (opens a new tab)</span></a>}
+      {!compact && !featured && <a className="product-link" href={client.product.url} target="_blank" rel="noreferrer">Product details <span aria-hidden="true">↗</span><span className="sr-only"> (opens a new tab)</span></a>}
     </div>
   </section>;
 }
@@ -42,15 +42,15 @@ function SubmitActions({ draft, submitting, error, onSubmit }) {
 }
 
 function PromptScreen({ onSpeak, onType, hasDraft, permissionDenied }) {
-  return <AppShell variant="voice-screen">
-    <ProductContext compact />
+  return <AppShell variant="voice-screen prompt-screen">
+    <ProductContext featured />
     <div className="heading-group"><p className="eyebrow">Your perspective</p><h1 tabIndex={-1}>{client.question}</h1><p className="supporting">{client.invitation}</p></div>
     {permissionDenied && <div className="notice error" role="alert"><strong>Microphone unavailable · simulated</strong><p>No permission was requested. In this situation, you can write instead or retry the voice demo.</p></div>}
     <div className="input-choices">
       <button className="voice-orb" onClick={onSpeak}><MicIcon /><span>Try speaking</span></button>
-      <button className="button secondary" onClick={onType}>{hasDraft ? 'Continue your draft' : 'Write a thought'}</button>
+      <button className="button write-choice" onClick={onType}><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="m16 3 5 5-12 12-6 1 1-6Z M13 6l5 5" /></svg>{hasDraft ? 'Continue your draft' : 'Write a thought'}</button>
     </div>
-    <p className="fine-print">Voice uses an editable example in this demo. Your microphone stays off.</p>
+    <p className="fine-print">Demo voice uses sample text. You can edit before finishing.</p>
     {hasDraft && <p className="notice" role="status">Your written draft is ready to continue.</p>}
   </AppShell>;
 }
@@ -113,7 +113,7 @@ function TextFallbackScreen({ draft, onChange, onSubmit, onVoice, onClear, submi
   return <AppShell>
     <ProductContext compact />
     <div className="heading-group"><p className="eyebrow">Your words</p><h1 tabIndex={-1}>{client.question}</h1><p className="supporting">A sentence is enough. Add more if you’d like.</p></div>
-    <div className="field"><label htmlFor="written-feedback">Your thought</label><textarea id="written-feedback" rows={6} value={draft} disabled={submitting} onChange={(event) => onChange(event.target.value)} placeholder="I’d like to understand…" />
+    <div className="field"><label htmlFor="written-feedback">Your thought</label><textarea id="written-feedback" rows={6} value={draft} disabled={submitting} onChange={(event) => onChange(event.target.value)} placeholder="What stands out to you?" />
       <div className="field-meta"><span>{draft.length} characters</span>{draft.length > 0 && <button className="button text-button" disabled={submitting} onClick={onClear}>Clear</button>}</div>
     </div>
     <SubmitActions draft={draft} submitting={submitting} error={error} onSubmit={onSubmit} />
@@ -167,7 +167,7 @@ function ConfirmAction({ kind, onCancel, onConfirm }) {
 
 function DemoControls({ failNext, onFailNext, voiceScenario, onVoiceScenario, onReset, disabled }) {
   return <aside className="demo-controls" aria-label="Demo controls"><details><summary>About this demo & controls</summary><div className="demo-controls-body">
-    <p>A proposed Giacomini exhibition experience using the official {client.product.code} product image. This is not a live Giacomini service.</p>
+    <p>A proposed Giacomini product-feedback experience for places such as stores and exhibitions, using the official {client.product.code} product image. This is not a live Giacomini service.</p>
     <label htmlFor="voice-scenario">Next voice attempt</label><select id="voice-scenario" value={voiceScenario} disabled={disabled} onChange={(event) => onVoiceScenario(event.target.value)}>
       <option value="normal">Normal sample</option><option value="permission">Microphone unavailable (simulated)</option><option value="no-audio">No words picked up (simulated)</option><option value="transcription">Transcript fails once (simulated)</option>
     </select>

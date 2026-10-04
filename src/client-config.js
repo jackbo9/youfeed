@@ -1,11 +1,11 @@
 const asset = (file) => `${import.meta.env.BASE_URL}giacomini/${file}`;
 
-// Official product identity + proposed exhibition content. See docs/giacomini-content.md.
+// Official product identity + proposed product-feedback content. See docs/giacomini-content.md.
 export const client = {
   name: 'Giacomini',
   logo: asset('logo.svg'),
-  context: 'Exhibition feedback',
-  recipient: 'Giacomini exhibition team',
+  context: 'Product feedback',
+  recipient: 'Giacomini team',
   product: {
     code: 'R146C',
     name: 'Adjustable magnetic dirt separator',
@@ -13,8 +13,8 @@ export const client = {
     imageAlt: 'Giacomini R146C magnetic dirt separator in two configurations',
     url: 'https://www.giacomini.com/product/R146C',
   },
-  question: 'What would you like to know more about?',
-  invitation: 'One thought about this separator is enough. You can check your words before finishing.',
-  sampleTranscript: 'I can see how the separator fits into the system. I would like a clearer explanation of how to clean it and how often it needs maintenance.',
+  question: 'What do you think of this product?',
+  invitation: 'A first impression or an experience — one thought is enough.',
+  sampleTranscript: 'The compact shape makes a good first impression. I would prefer a clearer indication of where to access it for cleaning.',
   recordingSeconds: 30,
 };
