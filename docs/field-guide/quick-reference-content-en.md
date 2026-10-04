@@ -1,45 +1,26 @@
-# YouFeed Field Quick Reference / Reconstruction v1.1
+# YouFeed / v1.2 / 2026.10.05
 
+# What you see. What to do next.
 
-# Check. Support. Finish clearly.
+Field quick reference / See the E number for detail. First match the area and feedback subject.
 
-Reconstruction. The current version simulates voice and submission. Do not promise anything that has not been confirmed.
+Invite and support
 
-01 / Invite and identify the area
+Not sure what to say? “You can share one thing that stood out.” If welcome: “What made you feel that way?” Do not suggest answers, answer for them or insist on more.
 
-“We’d like to hear your views on [subject]. If you’d like to take part, tap the NFC card or scan the QR code. It is entirely optional.” For a demo, add: “Voice uses sample text and nothing is sent.”
+WHAT YOU SEE | NEXT ACTION | WHEN / WHO
 
-| A / EXHIBITION | P / PRODUCT | T / TALK OR SESSION |
+Entry fails; no draft | Check subject and connection. Try one verified alternative. E1 / E2 | Still fails: stop and contact the lead.
 
-| --- | --- | --- |
+Draft; not submitted | Keep page; do not refresh. Use agreed recovery, or let them stop. E1 | No recovery: log to lead. No receipt check.
 
-| Choose one thing that stood out. | Confirm the product; separate first impressions from use. | Confirm title / session; discuss content, understanding or experience. |
+Submitted; unclear | Do not resubmit. Keep page and let them stop waiting. E6 | Log time, entry and last action. Lead asks backend.
 
-02 / If they do not know what to say
+Wrong subject | Pause. Find the correct entry; explain draft-loss risks. E3 | Still wrong / unavailable: pause material; tell lead.
 
-“You can share just one thing that stood out.” Then, if useful: “What made you feel that way?”
-Offer text if voice is inconvenient; let them stop. Do not suggest praise, write for them or insist on more.
+Voice unavailable | Offer text. After one failed recovery, write or finish. E4 | Log message and outcome to lead / technical support.
 
-03 / Check, try an alternative, stop, hand over
+Explicit submit error | Retry once only if confirmed safe; uncertain receipt goes to E6. E5 | Still fails: tell lead; backend checks receipt.
 
-| SYMPTOM | NEXT STEP AND STOP CONDITION |
-
-| --- | --- |
-
-| Entry / network fails | With no draft: verify the subject; try a verified alternative entry or network once. Stop if it still fails. Do not refresh a draft. E1 / E2. |
-
-| Wrong subject | Pause. Match material and page; stop if no correct entry exists. Do not promise draft transfer. Ask the lead to pause wrong material. E3. |
-
-| Voice unavailable | Switch to text; the demo does not record. Stop after one failed recovery attempt. E4. |
-
-| Submit error / unclear | Retry once only if confirmed safe. If unclear, do not resubmit. Keep the page if open, let them leave and ask backend to check. E5 / E6. |
-
-04 / Finish and record the minimum
-
-Log time, area / entry, subject, difficulty, help, retries, last state and owner.
-Choose: Independent / With help / Not completed / Unclear. Separately record verified receipt.
-Demo complete is not live receipt. Refreshing clears the demo draft. No unrelated personal data.
-
-Lead / channel: ____________________  Backup: ____________________
-Technical / backend contact: ________________  Follow-up time: __________
-These stop rules are proposed. Confirm entries, live completion and safe retries before field use.
+Log time, area / entry, difficulty, help and last state. Lead / channel: __________________
+Demo training: sample voice, no sending; refresh clears text. Field settings: section 08.
