@@ -16,13 +16,13 @@ function ProductContext({ compact = false }) {
   </section>;
 }
 
-function AppShell({ children }) {
+function AppShell({ children, variant = "" }) {
   const mainRef = useRef(null);
   useEffect(() => {
     mainRef.current?.querySelector('h1')?.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
-  return <main className="app-shell" ref={mainRef}>
+  return <main className={`app-shell ${variant}`} ref={mainRef}>
     <header className="brand-header"><img src={client.logo} width="150" height="30" alt={client.name} /><span>{client.context}</span></header>
     <div className="screen-content">{children}</div>
     <footer className="product-footer"><span>Powered by <strong>YouFeed</strong></span><span>One product. Your perspective.</span></footer>
@@ -42,12 +42,12 @@ function SubmitActions({ draft, submitting, error, onSubmit }) {
 }
 
 function PromptScreen({ onSpeak, onType, hasDraft, permissionDenied }) {
-  return <AppShell>
-    <ProductContext />
+  return <AppShell variant="voice-screen">
+    <ProductContext compact />
     <div className="heading-group"><p className="eyebrow">Your perspective</p><h1 tabIndex={-1}>{client.question}</h1><p className="supporting">{client.invitation}</p></div>
     {permissionDenied && <div className="notice error" role="alert"><strong>Microphone unavailable · simulated</strong><p>No permission was requested. In this situation, you can write instead or retry the voice demo.</p></div>}
     <div className="input-choices">
-      <button className="button primary" onClick={onSpeak}><MicIcon /> Try speaking</button>
+      <button className="voice-orb" onClick={onSpeak}><MicIcon /><span>Try speaking</span></button>
       <button className="button secondary" onClick={onType}>{hasDraft ? 'Continue your draft' : 'Write a thought'}</button>
     </div>
     <p className="fine-print">Voice uses an editable example in this demo. Your microphone stays off.</p>
@@ -68,16 +68,20 @@ function RecordingScreen({ onStop, onType }) {
     return () => clearInterval(id);
   }, [onStop, max]);
 
-  return <AppShell>
+  return <AppShell variant="voice-screen">
     <ProductContext compact />
     <div className="heading-group"><p className="eyebrow">Voice · demo</p><h1 tabIndex={-1}>Take a moment.</h1><p className="supporting">{client.question}</p></div>
     <div className="recording-panel">
       <div className="recording-label"><span className="recording-dot" /> Simulated recording</div>
-      <div className="recording-time">0:{String(secs).padStart(2, '0')}</div>
+      <button className="voice-orb is-recording" onClick={() => onStop(false)}>
+        <span className="stop-icon" aria-hidden="true" />
+        <span>Stop and review</span>
+        <span className="orb-time" aria-hidden="true">0:{String(secs).padStart(2, '0')}</span>
+      </button>
       <progress value={secs} max={max} aria-label="Demo recording elapsed" />
-      <span className="fine-print">Up to {max} seconds · stop whenever you’re ready</span>
+      <span className="fine-print">Up to {max} seconds · stop when you’re ready</span>
     </div>
-    <div className="actions"><button className="button primary" onClick={() => onStop(false)}><span className="stop-icon" aria-hidden="true" /> Stop and review</button><button className="button text-button" onClick={onType}>Write instead</button></div>
+    <button className="button secondary" onClick={onType}>Write instead</button>
     <p className="fine-print">No sound is recorded. Stopping opens a sample; switching to writing keeps your previous draft.</p>
   </AppShell>;
 }

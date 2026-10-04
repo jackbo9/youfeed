@@ -137,3 +137,35 @@ select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 .confirm-dialog::backdrop { background: #20232066; }
 .confirm-dialog h2 { font-size: 24px; line-height: 1.2; margin: 0; letter-spacing: -.025em; }
 .confirm-dialog > p { font-size: 14px; line-height: 1.6; color: var(--muted); margin: 16px 0 24px; }
+
+/* The voice action is YouFeed's tactile anchor; customer identity stays above it. */
+.voice-screen .screen-content { gap: 18px; }
+.voice-screen .heading-group { text-align: center; gap: 8px; }
+.voice-screen .eyebrow { display: none; }
+.voice-screen .product-context.compact { padding-bottom: 14px; }
+.voice-screen .product-context.compact img { width: 52px; height: 52px; }
+.voice-screen .input-choices { justify-items: center; gap: 20px; }
+.voice-screen .secondary { width: 100%; }
+.voice-screen .fine-print { text-align: center; }
+.voice-orb {
+  width: clamp(166px, 48vw, 196px); aspect-ratio: 1; flex-shrink: 0;
+  border-radius: 50%; border: 1px solid #be0017; color: white;
+  background: radial-gradient(circle at 34% 22%, #e91b34 0%, var(--brand) 52%, #bd0017 100%);
+  box-shadow: inset 0 2px 3px #ffffff38, inset 0 -5px 9px #82001026, 0 9px 18px #8700151c;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  gap: 16px; padding: 24px; font: inherit; font-size: 15px; font-weight: 600;
+  transition: transform .16s ease, box-shadow .16s ease;
+  touch-action: manipulation;
+}
+.voice-orb svg { width: 30px; height: 39px; }
+@media (hover: hover) { .voice-orb:hover { transform: translateY(-2px); } }
+.voice-orb:active { transform: scale(.97); box-shadow: inset 0 3px 10px #82001033, 0 3px 8px #8700151c; }
+.voice-orb.is-recording { background: radial-gradient(circle at 34% 22%, #ce1930, #b90018 65%, #a00014); gap: 12px; }
+.voice-orb .stop-icon { width: 26px; height: 26px; border-radius: 5px; }
+.orb-time { font-size: 22px; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.voice-screen .recording-panel { padding: 0; background: none; gap: 14px; }
+.voice-screen .brand-header { padding-top: 20px; padding-bottom: 18px; }
+@media (max-width: 359px) {
+  .voice-screen .screen-content { gap: 16px; }
+  .voice-screen .supporting { font-size: 14px; }
+}

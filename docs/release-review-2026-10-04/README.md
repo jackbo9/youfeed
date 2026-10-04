@@ -59,6 +59,8 @@
 
 ## 截图说明
 
+以下为 R5 历史构建记录；R6 已重新生成同路径构建包，当前文件哈希以本地 build-manifest.json 为准。截图 11–13 也属于 R5，不能作为 R6 入口视觉证据。
+
 构建包：`artifacts/youfeed-portfolio-demo.zip`（仓库根目录，本地产物），118929 bytes，包含 5 个静态文件；已校验 ZIP 完整性与 `artifacts/build-manifest.json` 一致。SHA-256：`991bab9050300e60173c63e9efedb133cdc85d9cb700a4d7b6dcbaadc55729e8`。
 
 11、12、13为最终入口、核对、完成截图。其余为本轮路径检查证据；某些截图保留页面滚动位置。10是小屏工具截图，截图工具的缩放画布可能留白，因此横向溢出结论以 DOM 实际尺寸为主，不把画布留白当产品布局。
