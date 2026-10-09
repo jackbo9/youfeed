@@ -75,7 +75,19 @@ h1 { font-size: clamp(26px, 6.4vw, 30px); line-height: 1.15; font-weight: 600; l
 .product-footer strong { color: var(--ink); font-size: 13px; }
 .recording-panel { display: grid; justify-items: center; gap: 18px; padding: 28px 16px; background: var(--soft); border-radius: var(--radius); text-align: center; }
 .recording-label { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-.recording-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand); }
+.recording-dot { position: relative; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); animation: dot-breathe 3.2s ease-in-out infinite; }
+.recording-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--brand); opacity: 0; animation: dot-halo 3.2s ease-out infinite; }
+/* Breathing = "this demo session is live and still holding your turn". It is not a
+   volume meter: no waveform, no colour change, no glow. */
+@keyframes dot-breathe {
+  0%, 100% { opacity: .6; transform: scale(.9); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+@keyframes dot-halo {
+  0% { transform: scale(1); opacity: .5; }
+  70% { transform: scale(3.6); opacity: 0; }
+  100% { transform: scale(3.6); opacity: 0; }
+}
 .recording-time { font-size: 52px; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 progress { width: min(100%, 220px); height: 4px; accent-color: var(--brand); border: none; border-radius: 2px; }
 progress::-webkit-progress-bar { background: var(--line); border-radius: 2px; }
@@ -149,6 +161,7 @@ select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 .voice-screen .input-choices { justify-items: center; gap: 20px; }
 .voice-screen .fine-print { text-align: center; }
 .voice-orb {
+  position: relative;
   width: clamp(166px, 46vw, 190px); aspect-ratio: 1; flex-shrink: 0;
   border-radius: 50%; border: 1px solid #be0017; color: white;
   background: radial-gradient(circle at 34% 22%, #e91b34 0%, var(--brand) 52%, #bd0017 100%);
@@ -161,7 +174,21 @@ select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 .voice-orb svg { width: 30px; height: 39px; }
 @media (hover: hover) { .voice-orb:hover { transform: translateY(-2px); } }
 .voice-orb:active { transform: scale(.97); box-shadow: inset 0 3px 10px #82001033, 0 3px 8px #8700151c; }
-.voice-orb.is-recording { background: radial-gradient(circle at 34% 22%, #ce1930, #b90018 65%, #a00014); gap: 12px; }
+.voice-orb.is-recording { background: radial-gradient(circle at 34% 22%, #ce1930, #b90018 65%, #a00014); gap: 12px; animation: orb-settle .45s cubic-bezier(.2,.8,.3,1) 1; }
+.voice-orb.is-recording::after {
+  content: ""; position: absolute; inset: -2px; border-radius: 50%; pointer-events: none;
+  border: 1px solid var(--brand); opacity: 0; animation: orb-pulse 3.2s ease-out infinite;
+}
+@keyframes orb-settle {
+  0% { transform: scale(.94); }
+  55% { transform: scale(1.008); }
+  100% { transform: scale(1); }
+}
+@keyframes orb-pulse {
+  0% { transform: scale(1); opacity: .42; }
+  65% { transform: scale(1.15); opacity: 0; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
 .voice-orb .stop-icon { width: 26px; height: 26px; border-radius: 5px; }
 .prompt-screen .product-context.featured { border: 0; padding: 0; gap: 20px; }
 .product-context.featured img { width: 128px; height: 128px; }
