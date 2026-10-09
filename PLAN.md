@@ -48,6 +48,7 @@
 | R2 + R3 | Giacomini 内容语境＋品牌视觉与小型设计系统（合并交付） | VERIFIED |
 | R4 | 细节、异常状态与用户走查修整 | VERIFIED |
 | R5 | 版本收口与作品集叙述材料 | VERIFIED |
+| R9 | 统一产品设计评审实施（手机 webapp 优先） | READY_FOR_USER_REVIEW |
 
 ## R0 — 文档节点
 
@@ -275,3 +276,22 @@
 - 本轮生产预览实际走查并保存首页、录音、核对、编辑、文字、提交失败、完成及短屏首页8张截图。
 - 指南：docs/product-review-2026-10-09/GUIDE.md。聚焦任务连续性、统一编辑模型、操作层级、演示说明及手机布局；列出优先级和验收标准。
 - 未做真实NFC/音频/InsightGPT、物理键盘、全部异常分支或全面无障碍验证；不否定历史落地。
+
+### R9 / 统一评审实施 / 2026-10-09 / READY_FOR_USER_REVIEW
+- 用户指令：把仓库推为起点 `main`，然后在新分支实施 `GUIDE.md`；并明确“按手机端打开的 webapp”来设计。
+- Git：`main` 已是起点，本机 `main` 与 `origin/main` 同为 `6ac83bd`（`git ls-remote` 核对，空操作 push 返回 Everything up-to-date），无新增基线提交；本轮工作分支 `codex/product-review-2026-10-09`。
+- 本轮改动（GUIDE P1/P2，均为新版设计提案，不宣称已提升效果）：
+  - 首页取消“输入选择吸收剩余高度”，余白移到任务组之后、署名之前；问题说明到圆形约 30–32px。
+  - 首页与录音共用同一圆形操作对象（166–190px）与同一轻量文字入口；录音删除重复进度条，保留状态、计时与时长。
+  - 核对页移除重复的 Continue as text，编辑与文字共用同一草稿；`Done editing` 改为辅助动作 `Preview text`，默认主操作直接 `Finish demo`。
+  - 文字页移除字数计数，`Clear` 保留确认并降权；返回改为 `Back` + 就近 `Draft kept`。
+  - 失败说明改为 `Demo submission failed.` + `Your feedback is kept.`，动作 `Try again`，不用换输入方式代替重试。
+  - 完成页收敛为结果标题 + 一句结果说明 + 轻量重启入口，去掉重复卡片；接收方写为 `Intended recipient: Giacomini team`。
+  - 全屏页脚统一只保留 `Powered by YouFeed`；顶部演示标识字号不再低于 12px。
+  - 手机优先：`viewport-fit=cover`、安全区内边距、`100svh` 铺满可见区域，未做首屏以外的桌面模拟框。
+- 检查：`npm run lint` 通过；`npm test` 10/10；`npm run build` 通过；`git diff --check` 干净。
+- 自检（390×844、320×568，agent 浏览器；不作用户验收）：无横向溢出；首页与录音圆形中心跳动由约 200px 收敛到约 82px；核对页无 `Done editing`/`Continue as text`；文字页无字数计数且有 `Back`/`Draft kept`；失败态焦点落在 `Try again` 且草稿保留；完成页无 `Prepared for` 卡片。
+- 本地预览：http://127.0.0.1:5173/（Vite dev，复用本仓库）。
+- 已知限制：首页圆形比录音页低约 82px（源于首页 112–128px 产品图与后续 52–60px 紧凑图的既有规则）；未做真实手机软键盘、200% 文字放大、读屏与全浏览器矩阵；模拟与真实送达边界规则未变。
+- 用户 review：待反馈。重点：①390/375 下任务是否连续、有无中段空洞；②首页↔录音圆形跳动是否可接受；③核对编辑是否只有一个完成层级；④文字页精简后是否仍够用；⑤完成页是否读作“已结束且未送达”。
+- 下一步：按用户反馈在本分支追加修订，不 amend 已推送历史。

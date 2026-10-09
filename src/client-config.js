@@ -14,7 +14,7 @@ export const client = {
     url: 'https://www.giacomini.com/product/R146C',
   },
   question: 'What do you think of this product?',
-  invitation: 'A first impression or an experience — one thought is enough.',
+  invitation: 'Share an impression or experience.',
   sampleTranscript: 'The compact shape makes a good first impression. I would prefer a clearer indication of where to access it for cleaning.',
   recordingSeconds: 30,
 };

@@ -7,6 +7,10 @@ function MicIcon() {
   return <svg aria-hidden="true" width="20" height="24" viewBox="0 0 33 43" fill="none"><rect x="9.5" y="2" width="14" height="23" rx="7" fill="currentColor" /><path d="M3.5 19.5C3.5 29 11 35.5 16.5 35.5S29.5 29 29.5 19.5M16.5 35.5V41M10.5 41H22.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /></svg>;
 }
 
+function PencilIcon() {
+  return <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="m16 3 5 5-12 12-6 1 1-6Z M13 6l5 5" /></svg>;
+}
+
 function ProductContext({ compact = false, featured = false }) {
   return <section className={`product-context ${compact ? 'compact' : ''} ${featured ? 'featured' : ''}`} aria-label="Product being reviewed">
     <img src={client.product.image} alt={client.product.imageAlt} width="112" height="112" />
@@ -25,7 +29,7 @@ function AppShell({ children, variant = "" }) {
   return <main className={`app-shell ${variant}`} ref={mainRef}>
     <header className="brand-header"><img src={client.logo} width="150" height="30" alt={client.name} /><span>{client.context}</span></header>
     <div className="screen-content">{children}</div>
-    <footer className="product-footer"><span>Powered by <strong>YouFeed</strong></span><span>One product. Your perspective.</span></footer>
+    <footer className="product-footer"><span>Powered by <strong>YouFeed</strong></span></footer>
   </main>;
 }
 
@@ -33,9 +37,9 @@ function SubmitActions({ draft, submitting, error, onSubmit }) {
   const submitRef = useRef(null);
   useEffect(() => { if (error) submitRef.current?.focus(); }, [error]);
   return <div className="actions" aria-busy={submitting}>
-    {error && <div className="notice error" role="alert"><strong>That didn’t go through.</strong><p>This is a simulated failure. Your words are still here. Try again when you’re ready.</p></div>}
+    {error && <div className="notice error" role="alert"><strong>Demo submission failed.</strong><p>Your feedback is kept. Try again when you’re ready.</p></div>}
     <button ref={submitRef} className="button primary" disabled={submitting || !draft.trim()} onClick={onSubmit}>
-      {submitting ? <><span className="spinner" aria-hidden="true" /> Finishing…</> : error ? 'Try again' : 'Finish feedback'}
+      {submitting ? <><span className="spinner" aria-hidden="true" /> Finishing…</> : error ? 'Try again' : 'Finish demo'}
     </button>
     <p className="fine-print" role="status">{submitting ? 'Completing the demo. Nothing is sent.' : 'Demo only — nothing is sent to Giacomini.'}</p>
   </div>;
@@ -47,8 +51,8 @@ function PromptScreen({ onSpeak, onType, hasDraft, permissionDenied }) {
     <div className="heading-group"><p className="eyebrow">Your perspective</p><h1 tabIndex={-1}>{client.question}</h1><p className="supporting">{client.invitation}</p></div>
     {permissionDenied && <div className="notice error" role="alert"><strong>Microphone unavailable · simulated</strong><p>No permission was requested. In this situation, you can write instead or retry the voice demo.</p></div>}
     <div className="input-choices">
-      <button className="voice-orb" onClick={onSpeak}><MicIcon /><span>Try speaking</span></button>
-      <button className="button write-choice" onClick={onType}><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="m16 3 5 5-12 12-6 1 1-6Z M13 6l5 5" /></svg>{hasDraft ? 'Continue your draft' : 'Write a thought'}</button>
+      <button className="voice-orb" onClick={onSpeak}><MicIcon /><span>Try voice demo</span></button>
+      <button className="button write-choice" onClick={onType}><PencilIcon />{hasDraft ? 'Continue your draft' : 'Write feedback'}</button>
     </div>
     <p className="fine-print">Demo voice uses sample text. You can edit before finishing.</p>
     {hasDraft && <p className="notice" role="status">Your written draft is ready to continue.</p>}
@@ -70,23 +74,22 @@ function RecordingScreen({ onStop, onType }) {
 
   return <AppShell variant="voice-screen">
     <ProductContext compact />
-    <div className="heading-group"><p className="eyebrow">Voice · demo</p><h1 tabIndex={-1}>Take a moment.</h1><p className="supporting">{client.question}</p></div>
+    <div className="heading-group"><h1 tabIndex={-1}>Voice feedback</h1><p className="supporting">{client.question}</p></div>
     <div className="recording-panel">
-      <div className="recording-label"><span className="recording-dot" /> Simulated recording</div>
+      <div className="recording-label"><span className="recording-dot" /> Demo recording</div>
       <button className="voice-orb is-recording" onClick={() => onStop(false)}>
         <span className="stop-icon" aria-hidden="true" />
-        <span>Stop and review</span>
+        <span>Stop &amp; review</span>
         <span className="orb-time" aria-hidden="true">0:{String(secs).padStart(2, '0')}</span>
       </button>
-      <progress value={secs} max={max} aria-label="Demo recording elapsed" />
-      <span className="fine-print">Up to {max} seconds · stop when you’re ready</span>
+      <span className="fine-print">Up to {max} seconds.</span>
     </div>
-    <button className="button secondary" onClick={onType}>Write instead</button>
+    <button className="button write-choice" onClick={onType}><PencilIcon />Write feedback</button>
     <p className="fine-print">No sound is recorded. Stopping opens a sample; switching to writing keeps your previous draft.</p>
   </AppShell>;
 }
 
-function CapturedScreen({ draft, onChange, onSubmit, onRedo, onType, autoStopped, submitting, error }) {
+function CapturedScreen({ draft, onChange, onSubmit, onRedo, autoStopped, submitting, error }) {
   const [isEditing, setIsEditing] = useState(false);
   const editRef = useRef(null);
   const editButtonRef = useRef(null);
@@ -97,15 +100,15 @@ function CapturedScreen({ draft, onChange, onSubmit, onRedo, onType, autoStopped
   }, [isEditing]);
   return <AppShell>
     <ProductContext compact />
-    <div className="heading-group"><p className="eyebrow">Check your words</p><h1 tabIndex={-1}>Does this say what you mean?</h1><p className="supporting">{client.question}</p></div>
+    <div className="heading-group"><h1 tabIndex={-1}>Review your feedback</h1><p className="supporting">{client.question}</p></div>
     {autoStopped && <p className="notice" role="status">The {client.recordingSeconds}-second demo has ended. Your sample is ready to check.</p>}
     <div className="transcript">
       <div className="transcript-heading"><span>Editable example</span>{!isEditing && <button ref={editButtonRef} className="button text-button" disabled={submitting} onClick={() => setIsEditing(true)}>Edit</button>}</div>
-      {isEditing ? <><label className="sr-only" htmlFor="transcript">Your feedback</label><textarea id="transcript" ref={editRef} rows={6} value={draft} disabled={submitting} onChange={(event) => onChange(event.target.value)} /><button className="button text-button" disabled={submitting} onClick={() => { restoreEditFocus.current = true; setIsEditing(false); }}>Done editing</button></> : <p className="transcript-text">{draft || 'Nothing here yet. Select Edit to add your thought.'}</p>}
+      {isEditing ? <><label className="sr-only" htmlFor="transcript">Your feedback</label><textarea id="transcript" ref={editRef} rows={6} value={draft} disabled={submitting} onChange={(event) => onChange(event.target.value)} /><button className="button text-button" disabled={submitting} onClick={() => { restoreEditFocus.current = true; setIsEditing(false); }}>Preview text</button></> : <p className="transcript-text">{draft || 'Nothing here yet. Select Edit to add your thought.'}</p>}
       <p className="fine-print">Sample text, not a transcription of your voice.</p>
     </div>
     <SubmitActions draft={draft} submitting={submitting} error={error} onSubmit={onSubmit} />
-    <div className="secondary-actions"><button className="button text-button" disabled={submitting} onClick={onRedo}>Try speaking again</button><button className="button text-button" disabled={submitting} onClick={onType}>Continue as text</button></div>
+    <div className="secondary-actions"><button className="button text-button" disabled={submitting} onClick={onRedo}>Try voice again</button></div>
   </AppShell>;
 }
 
@@ -114,20 +117,18 @@ function TextFallbackScreen({ draft, onChange, onSubmit, onVoice, onClear, submi
     <ProductContext compact />
     <div className="heading-group"><p className="eyebrow">Your words</p><h1 tabIndex={-1}>{client.question}</h1><p className="supporting">A sentence is enough. Add more if you’d like.</p></div>
     <div className="field"><label htmlFor="written-feedback">Your thought</label><textarea id="written-feedback" rows={6} value={draft} disabled={submitting} onChange={(event) => onChange(event.target.value)} placeholder="What stands out to you?" />
-      <div className="field-meta"><span>{draft.length} characters</span>{draft.length > 0 && <button className="button text-button" disabled={submitting} onClick={onClear}>Clear</button>}</div>
+      {draft.length > 0 && <div className="field-meta"><button className="button text-button" disabled={submitting} onClick={onClear}>Clear</button></div>}
     </div>
     <SubmitActions draft={draft} submitting={submitting} error={error} onSubmit={onSubmit} />
-    <button className="button text-button" disabled={submitting} onClick={onVoice}>Back to input choices</button>
-    <p className="fine-print">Your draft stays when you go back. Reloading clears this demo.</p>
+    <div className="back-row"><button className="button text-button" disabled={submitting} onClick={onVoice}>Back</button>{draft.length > 0 && <span className="fine-print">Draft kept</span>}</div>
   </AppShell>;
 }
 
 function SuccessScreen({ onDone }) {
   return <AppShell>
     <ProductContext compact />
-    <div className="completion"><span className="completion-mark" aria-hidden="true"><svg width="28" height="22" viewBox="0 0 30 22" fill="none"><path d="M2 11L10 19L28 2" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg></span><p className="eyebrow">Demo complete</p><h1 tabIndex={-1}>Thank you for your perspective.</h1><p className="supporting">You’ve reached the end of this feedback experience.</p></div>
-    <div className="receipt"><span>Prepared for</span><strong>{client.recipient}</strong><p>Demonstration only. Your feedback has not been sent.</p></div>
-    <button className="button secondary" onClick={onDone}>Start a new demo</button>
+    <div className="completion"><span className="completion-mark" aria-hidden="true"><svg width="28" height="22" viewBox="0 0 30 22" fill="none"><path d="M2 11L10 19L28 2" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg></span><h1 tabIndex={-1}>Demo complete</h1><p className="supporting">No feedback was sent. Intended recipient: {client.recipient}.</p></div>
+    <button className="button text-button" onClick={onDone}>Start a new demo</button>
   </AppShell>;
 }
 
@@ -136,7 +137,7 @@ function RecoveryScreen({ kind, onRetry, onType }) {
   return <AppShell><ProductContext compact />
     <div className="heading-group"><p className="eyebrow">Voice · demo</p><h1 tabIndex={-1}>{noAudio ? 'No words picked up.' : 'The transcript isn’t ready.'}</h1><p className="supporting">{noAudio ? 'Try the voice example again, or write your thought instead.' : 'Try preparing the example again, or continue by writing.'}</p></div>
     <div className="notice" role="status">Simulated {noAudio ? 'empty recording' : 'transcription failure'}. Any earlier written draft is kept.</div>
-    <div className="actions"><button className="button primary" onClick={onRetry}>{noAudio ? 'Try voice again' : 'Try again'}</button><button className="button secondary" onClick={onType}>Write instead</button></div>
+    <div className="actions"><button className="button primary" onClick={onRetry}>{noAudio ? 'Try voice again' : 'Try again'}</button><button className="button secondary" onClick={onType}>Write feedback</button></div>
   </AppShell>;
 }
 
@@ -207,7 +208,7 @@ export default function YouFeed() {
     transcribing: <TranscribingScreen scenario={state.captureScenario} onReady={sampleReady} onError={transcriptFailed} onType={goText} />,
     'no-audio': <RecoveryScreen kind="no-audio" onRetry={() => dispatch({ type: 'RECORD_RETRY' })} onType={goText} />,
     'transcription-error': <RecoveryScreen kind="transcription-error" onRetry={() => dispatch({ type: 'TRANSCRIBE_RETRY' })} onType={goText} />,
-    review: <CapturedScreen {...feedbackProps} onRedo={record} onType={goText} autoStopped={state.autoStopped} />,
+    review: <CapturedScreen {...feedbackProps} onRedo={record} autoStopped={state.autoStopped} />,
     text: <TextFallbackScreen {...feedbackProps} onVoice={() => dispatch({ type: 'PROMPT' })} onClear={() => dispatch({ type: 'CLEAR_REQUEST' })} />,
     success: <SuccessScreen onDone={reset} />,
   };
